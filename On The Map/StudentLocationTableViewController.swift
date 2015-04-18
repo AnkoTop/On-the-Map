@@ -16,33 +16,47 @@ class StudentLocationTableViewController: UITableViewController, UITableViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-   }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
         
-        studentLocations = (self.tabBarController as! StudentTabBarViewController).studentLocations
+        // get a list of (100) student locations
+        ParseClient.sharedInstance().getStudentLocations() {succes, message, error in
+            if succes {
+                self.studentLocations = globalStudentLocations
+            } else {
+                var noStudentLocationsAlert = UIAlertController(title: "Student Locations", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                noStudentLocationsAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in  //do nothing
+                }))
+                self.presentViewController(noStudentLocationsAlert, animated: true, completion: nil)
+            }
+        }
+        
+        // check if there is an existing studentLocation
+        if udacityUser.hasStudentLocation == nil {
+            ParseClient.sharedInstance().checkForStudentLocation(){ result, error in
+                // do nothing
+            }
+        }
+        
+        // Listen for updates of the StudenLocation data
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTableView", name: StudentLocationNotificationKey , object: nil)
+    }
+    
+    
+    func updateTableView(){
+        self.studentLocations = globalStudentLocations
         dispatch_async(dispatch_get_main_queue()) {
             self.studentLocationTableView.reloadData()
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(true)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
         
-        
+        self.studentLocations = globalStudentLocations
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
     
+    // Tableview delegates
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return studentLocations.count
+        return self.studentLocations.count
     }
 
     
@@ -52,17 +66,15 @@ class StudentLocationTableViewController: UITableViewController, UITableViewDele
         
         cell.textLabel!.text = student.firstName + " " + student.lastName
         cell.detailTextLabel!.text = student.mediaURL
-      
 
         return cell
     }
     
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // when a row is selected" open the url from the student
+        // when a row is selected: open the url from the student
         let student = studentLocations[indexPath.row]
         UIApplication.sharedApplication().openURL(NSURL(string:student.mediaURL)!)
-        
     }
 
 }

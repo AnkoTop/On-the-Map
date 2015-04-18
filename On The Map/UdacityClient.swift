@@ -29,27 +29,16 @@ class UdacityClient : NSObject {
         var jsonifyError: NSError? = nil
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)!
         
-        // REMOVE THIS LINE
-        //println("requestbody : \(NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding))")
-        
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
-            
-            /* Parse the data and use the data (happens in completion handler) */
             if let error = downloadError {
                 let newError = UdacityClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: downloadError)
             } else {
                 let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
-                
-                //REMOVE THESE LINES
-//                println("newData: \(newData)")
-//                println(NSString(data: newData, encoding: NSUTF8StringEncoding))
-                
                 UdacityClient.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
             }
         }
-
-        
+       
         task.resume()
         
         return task
@@ -62,24 +51,15 @@ class UdacityClient : NSObject {
         let url = NSURL(string: urlString)!
         let request = NSURLRequest(URL: url)
         
-        
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
-            
-            /* Parse the data and use the data (happens in completion handler) */
             if let error = downloadError {
                 let newError = UdacityClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: downloadError)
             } else {
                 let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
-                
-                // REMOVE THESE LINES
-                //println("newData: \(newData)")
-                //println(NSString(data: newData, encoding: NSUTF8StringEncoding))
-                
                 UdacityClient.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
             }
         }
-        
         
         task.resume()
         

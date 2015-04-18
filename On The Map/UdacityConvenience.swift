@@ -10,7 +10,7 @@ import Foundation
 
 extension UdacityClient {
     
-    func establishSession(username: String, password: String, completionHandler: (succes: Bool, error: NSError?) -> Void) {
+    func establishSession(username: String, password: String, completionHandler: (succes: Bool, message: String, error: NSError?) -> Void) {
         
         var mutableMethod : String = Methods.signIn
         let jsonBody : [String:AnyObject] = [
@@ -22,20 +22,23 @@ extension UdacityClient {
         let task = taskForPOSTMethod(mutableMethod, jsonBody: jsonBody) { JSONResult, error in
             
             if let error = error {
-                completionHandler(succes: false, error: error)
+                completionHandler(succes: false, message: "Error in Network connection", error: error)
             } else {
                 if let accountDictionary = JSONResult.valueForKey(UdacityClient.JSONResponseKeys.account) as? NSDictionary {
                     if let userID = accountDictionary.valueForKey(UdacityClient.JSONResponseKeys.userID) as? String {
                         self.getUserData(userID) {succes, error in
                             if succes {
-                                completionHandler(succes: true, error: nil)
+                                completionHandler(succes: true, message: "", error: nil)
                             } else {
-                                completionHandler(succes: false, error: nil)
-                                println("error")
+                                completionHandler(succes: false, message: "userid unknown", error: nil)
                                 }
                             }
                     } else {
-                        completionHandler(succes: false, error: NSError(domain: "postSessionToUdacity parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postSessionToUdacity"]))
+                        completionHandler(succes: false, message: "error parsing Udacity response", error: NSError(domain: "postSessionToUdacity parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postSessionToUdacity"]))
+                    }
+                } else {
+                    if let message = JSONResult.valueForKey(UdacityClient.JSONResponseKeys.errorMessage) as? String {
+                        completionHandler(succes: false, message: message, error: nil)
                     }
                 }
             }
@@ -56,16 +59,11 @@ extension UdacityClient {
                 if let userDictionary = JSONResult.valueForKey(UdacityClient.JSONResponseKeys.user) as? NSDictionary {
                         let firstName = userDictionary.valueForKey(UdacityClient.JSONResponseKeys.firstName) as! String
                         let lastName = userDictionary.valueForKey(UdacityClient.JSONResponseKeys.lastName) as! String
+                        // make it globaly accesible
                         udacityUser.setDataUdacityUser(firstName, lastName: lastName, userId: userID)
-                    
-                        // REMOVE THESE LINES
-//                        println(udacityUser.firstName)
-//                        println(udacityUser.lastName)
-//                        println(udacityUser.userId)
-                    
                         completionHandler(succes: true, error: nil)
                     } else {
-                        completionHandler(succes: false, error: NSError(domain: "postSessionToUdacity parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postSessionToUdacity"]))
+                        completionHandler(succes: false, error: NSError(domain: "getUdacityUserData parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getUdacityUserData"]))
                     }
                 }
             }

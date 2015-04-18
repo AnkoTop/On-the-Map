@@ -8,6 +8,16 @@
 
 import Foundation
 
+
+// Global accesible data
+let StudentLocationNotificationKey = "nl.reactivity.StudentLocationNotificationKey"
+var globalStudentLocations = [StudentLocation]() {
+    didSet{
+        //send a notifaction that the data has changed
+         NSNotificationCenter.defaultCenter().postNotificationName(StudentLocationNotificationKey, object: nil )
+    }
+}
+
 struct StudentLocation {
     var objectId = ""
     var uniqueKey = ""
@@ -20,11 +30,12 @@ struct StudentLocation {
     var createdAt: NSDate?
     var updatedAt: NSDate?
     
-    /* Construct a StudenLocation from a dictionary */
+    
     init () {
         // default constructor
     }
     
+    // Construct a StudenLocation from a dictionary
     init(dictionary: [String : AnyObject]) {
         
         objectId = dictionary[ParseClient.JSONResponseKeys.objectId] as! String
@@ -39,7 +50,7 @@ struct StudentLocation {
         updatedAt = dictionary[ParseClient.JSONResponseKeys.updatedAt] as? NSDate
     }
     
-    /* Helper: Given an array of dictionaries, convert them to an array of StudenLocation */
+    // Helper: Given an array of dictionaries, convert them to an array of StudenLocation
     static func studentLocationFromResults(results: [[String : AnyObject]]) -> [StudentLocation] {
         var studentLocations = [StudentLocation]()
         
@@ -49,7 +60,5 @@ struct StudentLocation {
         
         return studentLocations
     }
-
-    
-    
+   
 }

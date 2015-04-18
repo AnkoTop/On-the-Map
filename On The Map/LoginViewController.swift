@@ -8,28 +8,26 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
-
-    
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var loginEmail: UITextField!
     @IBOutlet weak var loginPassword: UITextField!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var session: NSURLSession!
-
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.activityIndicator.hidesWhenStopped = true
+        self.loginEmail.delegate = self
+        self.loginPassword.delegate = self;
 
         // Do any additional setup after loading the view.
         session = NSURLSession.sharedSession()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+ 
  
     @IBAction func startSignUp(sender: UIButton) {
        UIApplication.sharedApplication().openURL(NSURL(string:UdacityClient.Constants.baseSecureURL + UdacityClient.Methods.signUp)!)
@@ -37,36 +35,44 @@ class LoginViewController: UIViewController {
     
     
     @IBAction func loginToUdacity(sender: UIButton) {
-    // check if email and password are filled
-        if loginEmail != "" && loginPassword != "" {
-            UdacityClient.sharedInstance().establishSession(loginEmail.text, password: loginPassword.text) { succes, error in
+        self.view.endEditing(true)
+        // check if email and password are filled
+        if loginEmail.text != "" && loginPassword.text != "" {
+            self.activityIndicator.startAnimating()
+            UdacityClient.sharedInstance().establishSession(loginEmail.text, password: loginPassword.text) { succes, message, error in
                 if succes {
-                   // REMOVE THESE LINES
-                    println("userinfo after login")
-                   println(udacityUser.firstName)
-                    println(udacityUser.lastName)
-                     println(udacityUser.userId)
-                     println(udacityUser.hasStudentLocation)
-                     println(udacityUser.objectIdStudentLocation)
-                    
                    self.completeLogin()
                 } else {
-                    println(error)
+                   self.showLoginFailedAlert(message)
                   }
              }
         } else {
-            println("error")
+           self.showLoginFailedAlert("Both email and password must be filled!")
         }
-        
     }
+    
+    func showLoginFailedAlert(message: String){
+        
+        var loginAlert = UIAlertController(title: "Login failed", message: message, preferredStyle:   UIAlertControllerStyle.Alert)
+        loginAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in self.activityIndicator.stopAnimating()
+        }))
+        presentViewController(loginAlert, animated: true, completion: nil)
+    }
+
     
     
     func completeLogin() {
+        self.activityIndicator.stopAnimating()
         dispatch_async(dispatch_get_main_queue(), {
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("ManagerNavigationController") as! UINavigationController
             self.presentViewController(controller, animated: true, completion: nil)
         })
     }
     
+    //textfield delegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
 
 }

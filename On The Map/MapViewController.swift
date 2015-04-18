@@ -12,24 +12,30 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     var studentLocations: [StudentLocation] = [StudentLocation]()
+    var annotations = [MKPointAnnotation]()
     
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.updateMapView()
+        
+        // Listen for updates of the StudenLocation data
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateMapView", name: StudentLocationNotificationKey , object: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
+    func updateMapView() {
         
+        // remove old annotations
+        if self.mapView.annotations.count > 0 {
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            self.annotations.removeAll(keepCapacity: true)
+        }
         
-        var annotations = [MKPointAnnotation]()
-        
-        studentLocations = (self.tabBarController as! StudentTabBarViewController).studentLocations
-        
+        self.studentLocations = globalStudentLocations
         // get the necessary data from the dictionary
-        for student in studentLocations {
+        for student in self.studentLocations {
             
             let lat = CLLocationDegrees(student.lattitude!)
             let long = CLLocationDegrees(student.longitude!)
@@ -45,20 +51,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             annotation.title = "\(first) \(last)"
             annotation.subtitle = mediaURL
             
-            annotations.append(annotation)
+            self.annotations.append(annotation)
         }
         
         // add the annotations to the map.
-        self.mapView.addAnnotations(annotations)
-    
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        self.mapView.addAnnotations(self.annotations)
+        self.mapView.showAnnotations(self.annotations, animated: true)
     }
     
-
     // MARK: - MKMapViewDelegate
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         
@@ -78,6 +78,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         return pinView
     }
+    
     
     func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         

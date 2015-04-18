@@ -27,7 +27,6 @@ class ParseClient: NSObject {
         request.addValue(Constants.apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
-            /* Parse the data */
             if let error = downloadError {
                 let newError = ParseClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: downloadError)
@@ -55,11 +54,7 @@ class ParseClient: NSObject {
         var jsonifyError: NSError? = nil
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)!
         
-        //REMOVE THIS LINE
-        //println("requestbody : \(NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding))")
-        
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
-            /* Parse the data */
             if let error = downloadError {
                 let newError = ParseClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: downloadError)
@@ -87,11 +82,7 @@ class ParseClient: NSObject {
         var jsonifyError: NSError? = nil
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)!
         
-        // REMOVE THIS LINE
-        //println("requestbody : \(NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding))")
-        
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
-            /* Parse the data */
             if let error = downloadError {
                 let newError = ParseClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: downloadError)
@@ -117,7 +108,6 @@ class ParseClient: NSObject {
         request.addValue(Constants.apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
-            /* Parse the data */
             if let error = downloadError {
                 let newError = ParseClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: downloadError)

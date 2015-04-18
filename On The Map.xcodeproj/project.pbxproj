@@ -12,6 +12,7 @@
 		A4051D2B1AD3C55E0017A8D0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4051D2A1AD3C55E0017A8D0 /* Images.xcassets */; };
 		A4051D2E1AD3C55E0017A8D0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A4051D2C1AD3C55E0017A8D0 /* LaunchScreen.xib */; };
 		A4051D3A1AD3C55E0017A8D0 /* On_The_MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4051D391AD3C55E0017A8D0 /* On_The_MapTests.swift */; };
+		A47F6A141AE2943E00E125D2 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A47F6A131AE2943E00E125D2 /* FBSDKCoreKit.framework */; };
 		A497ACB21AD7BED700575518 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB11AD7BED700575518 /* UdacityClient.swift */; };
 		A497ACB51AD7BF3900575518 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB41AD7BF3900575518 /* UdacityConstants.swift */; };
 		A497ACB71AD7DCEE00575518 /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB61AD7DCEE00575518 /* UdacityConvenience.swift */; };
@@ -20,9 +21,9 @@
 		A497ACBD1AD8001B00575518 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACBC1AD8001B00575518 /* ParseConstants.swift */; };
 		A497ACBF1AD810A600575518 /* StudentLocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACBE1AD810A600575518 /* StudentLocationTableViewController.swift */; };
 		A497ACC21AD8145700575518 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACC11AD8145700575518 /* MapViewController.swift */; };
-		A497ACC41AD81A9100575518 /* StudentTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACC31AD81A9100575518 /* StudentTabBarViewController.swift */; };
 		A497ACC61AD81C9100575518 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACC51AD81C9100575518 /* InformationPostingViewController.swift */; };
 		A497ACC91AD95DBC00575518 /* UdacityUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACC81AD95DBC00575518 /* UdacityUser.swift */; };
+		A497ACCB1ADFF2E700575518 /* StudentTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACCA1ADFF2E700575518 /* StudentTabBarViewController.swift */; };
 		A4B161721AD6BBE00084EA4E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B161711AD6BBE00084EA4E /* LoginViewController.swift */; };
 		A4B161771AD6CDCE0084EA4E /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B161761AD6CDCE0084EA4E /* StudentLocation.swift */; };
 /* End PBXBuildFile section */
@@ -47,6 +48,7 @@
 		A4051D331AD3C55E0017A8D0 /* On The MapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "On The MapTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4051D381AD3C55E0017A8D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4051D391AD3C55E0017A8D0 /* On_The_MapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = On_The_MapTests.swift; sourceTree = "<group>"; };
+		A47F6A131AE2943E00E125D2 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		A497ACB11AD7BED700575518 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		A497ACB41AD7BF3900575518 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 		A497ACB61AD7DCEE00575518 /* UdacityConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConvenience.swift; sourceTree = "<group>"; };
@@ -55,9 +57,9 @@
 		A497ACBC1AD8001B00575518 /* ParseConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		A497ACBE1AD810A600575518 /* StudentLocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocationTableViewController.swift; sourceTree = "<group>"; };
 		A497ACC11AD8145700575518 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		A497ACC31AD81A9100575518 /* StudentTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentTabBarViewController.swift; sourceTree = "<group>"; };
 		A497ACC51AD81C9100575518 /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
 		A497ACC81AD95DBC00575518 /* UdacityUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityUser.swift; sourceTree = "<group>"; };
+		A497ACCA1ADFF2E700575518 /* StudentTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentTabBarViewController.swift; sourceTree = "<group>"; };
 		A4B161711AD6BBE00084EA4E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A4B161731AD6C49D0084EA4E /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		A4B161741AD6C4A80084EA4E /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A47F6A141AE2943E00E125D2 /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +89,7 @@
 		A4051D151AD3C55E0017A8D0 = {
 			isa = PBXGroup;
 			children = (
+				A47F6A131AE2943E00E125D2 /* FBSDKCoreKit.framework */,
 				A4051D201AD3C55E0017A8D0 /* On The Map */,
 				A4051D361AD3C55E0017A8D0 /* On The MapTests */,
 				A4051D1F1AD3C55E0017A8D0 /* Products */,
@@ -160,10 +164,10 @@
 		A497ACC01AD8142D00575518 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A497ACBE1AD810A600575518 /* StudentLocationTableViewController.swift */,
 				A4B161711AD6BBE00084EA4E /* LoginViewController.swift */,
+				A497ACCA1ADFF2E700575518 /* StudentTabBarViewController.swift */,
+				A497ACBE1AD810A600575518 /* StudentLocationTableViewController.swift */,
 				A497ACC11AD8145700575518 /* MapViewController.swift */,
-				A497ACC31AD81A9100575518 /* StudentTabBarViewController.swift */,
 				A497ACC51AD81C9100575518 /* InformationPostingViewController.swift */,
 			);
 			name = Controllers;
@@ -278,6 +282,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A497ACCB1ADFF2E700575518 /* StudentTabBarViewController.swift in Sources */,
 				A497ACC21AD8145700575518 /* MapViewController.swift in Sources */,
 				A497ACB21AD7BED700575518 /* UdacityClient.swift in Sources */,
 				A497ACBB1AD8000A00575518 /* ParseConvenience.swift in Sources */,
@@ -285,7 +290,6 @@
 				A497ACC61AD81C9100575518 /* InformationPostingViewController.swift in Sources */,
 				A497ACB91AD7FFE500575518 /* ParseClient.swift in Sources */,
 				A497ACBF1AD810A600575518 /* StudentLocationTableViewController.swift in Sources */,
-				A497ACC41AD81A9100575518 /* StudentTabBarViewController.swift in Sources */,
 				A497ACC91AD95DBC00575518 /* UdacityUser.swift in Sources */,
 				A4B161771AD6CDCE0084EA4E /* StudentLocation.swift in Sources */,
 				A497ACBD1AD8001B00575518 /* ParseConstants.swift in Sources */,
@@ -414,7 +418,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/reactivity/Documents/FacebookSDK,
+				);
 				INFOPLIST_FILE = "On The Map/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -424,7 +433,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/reactivity/Documents/FacebookSDK,
+				);
 				INFOPLIST_FILE = "On The Map/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
