@@ -27,7 +27,7 @@ extension UdacityClient {
         static let udacity = "udacity"
         static let userName = "username"
         static let passWord = "password"
-        //for facebook
+        //for facebook login
         static let facebook = "facebook_mobile"
         static let token = "access_token"
     }
