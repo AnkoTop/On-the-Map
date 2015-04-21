@@ -16,6 +16,9 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var locationSearchString: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var studentURL: UITextField!
+    @IBOutlet weak var cancelLocation: UIBarButtonItem!
+    
+    @IBOutlet weak var geoActivity: UIActivityIndicatorView!
     
     var myAnnotation = MKPointAnnotation()
     
@@ -38,17 +41,19 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
         
         if udacityUser.hasStudentLocation! {
             self.removeLocation.enabled = true
-            self.showAlertWithOkAndNoAction("", message: "You have an active Student Location.\n Move it to the trash or proceed to update.")
+            self.showAlertWithOkAndNoAction("", message: "You have an active Student Location.\n You can move it to the trash or proceed to update.")
         }
     }
     
     
     @IBAction func findLocation(sender: UIButton) {
+        
+        self.geoActivity.startAnimating()
         if locationSearchString.text == "" {
             self.showAlertWithOkAndNoAction("Find location", message: "You must enter a valid location")
         } else {
-        
-            // try to reverse geolocate to position
+            
+            // try to reverse geolocate the searchstring to a position
             var geoCoder = CLGeocoder()
             geoCoder.geocodeAddressString(locationSearchString.text, completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
                 if let placemark = placemarks?[0] as? CLPlacemark {
@@ -57,15 +62,12 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
                 
                     self.myAnnotation.coordinate = (CLLocationCoordinate2DMake(placemark.location.coordinate.latitude, placemark.location.coordinate.longitude))
                     self.myAnnotation.title = newPlace.title
-                    self.myAnnotation.subtitle = "Is this the place?"
+                    self.myAnnotation.subtitle = "Is this the place you where searching for?"
                     self.mapView.addAnnotation(self.myAnnotation)
-                    //self.mapView.addAnnotation(MKPlacemark(placemark: newPlace))
-                
-                    //var span = MKCoordinateSpanMake(0.01, 0.01)
-                    // This sets the 'scale or zoom' of the map
-                    var span = MKCoordinateSpanMake(0.1, 0.1)
+                    
+                    // Set the 'scale/zoom' of the map
+                    var span = MKCoordinateSpanMake(0.05, 0.05)
                     //create MKCoordinateRegion structure
-                    // get the long and lat of the placemark and turn it into a center for the region
                     var center = CLLocationCoordinate2DMake(placemark.location.coordinate.latitude, placemark.location.coordinate.longitude)
                     var region = MKCoordinateRegionMake(center, span)
                     //set the region of the placemark and the map will show it
@@ -73,12 +75,15 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
  
                     self.view.viewWithTag(1)!.hidden = true
                     self.view.viewWithTag(2)!.hidden = false
+                    self.cancelLocation.title = "Back"
+                    self.removeLocation.enabled = false
                 
                 } else {
                     self.showAlertWithOkAndNoAction("Invalid Location", message: "The location you entered is not valid or could not be found")
                 }
             })
         }
+        self.geoActivity.stopAnimating()
     }
     
     
@@ -135,7 +140,18 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     
     // cancel entering the update/creation StudentLocation
     @IBAction func cancelLocation(sender: UIBarButtonItem) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        //depending on what we see either show previous view (find location) or cancel th addition of a location
+        if self.view.viewWithTag(1)!.hidden {
+            // enter another location
+            view.viewWithTag(1)!.hidden = false
+            view.viewWithTag(2)!.hidden = true
+            self.cancelLocation.title = "Cancel"
+            if udacityUser.hasStudentLocation! {
+                self.removeLocation.enabled = true
+            }
+        } else {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     

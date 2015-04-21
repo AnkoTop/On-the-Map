@@ -74,7 +74,10 @@ class StudentLocationTableViewController: UITableViewController, UITableViewDele
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // when a row is selected: open the url from the student
         let student = studentLocations[indexPath.row]
-        UIApplication.sharedApplication().openURL(NSURL(string:student.mediaURL)!)
+        // Some locations don't have a valid url
+        if student.mediaURL != nil {
+            UIApplication.sharedApplication().openURL(NSURL(string:student.mediaURL!)!)
+        }
     }
 
 }

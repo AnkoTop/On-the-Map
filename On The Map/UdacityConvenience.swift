@@ -10,13 +10,15 @@ import Foundation
 
 extension UdacityClient {
     
+    // sesion with username/password
     func establishSession(username: String, password: String, completionHandler: (succes: Bool, message: String, error: NSError?) -> Void) {
         
         var mutableMethod : String = Methods.signIn
         let jsonBody : [String:AnyObject] = [
             UdacityClient.JSONBodyKeys.udacity : [
-            UdacityClient.JSONBodyKeys.userName: username,
-            UdacityClient.JSONBodyKeys.passWord: password]
+                UdacityClient.JSONBodyKeys.userName: username,
+                UdacityClient.JSONBodyKeys.passWord: password
+                ]
             ]
         
         let task = taskForPOSTMethod(mutableMethod, jsonBody: jsonBody) { JSONResult, error in
@@ -45,6 +47,42 @@ extension UdacityClient {
         }
     }
     
+    //session with FacebookToken
+    func establishFBTokenSession(token: String, completionHandler: (succes: Bool, message: String, error: NSError?) -> Void) {
+        
+        var mutableMethod : String = Methods.signIn
+        let jsonBody : [String:AnyObject] = [
+            UdacityClient.JSONBodyKeys.facebook : [
+                UdacityClient.JSONBodyKeys.token: token
+                ]
+            ]
+        
+        let task = taskForPOSTMethod(mutableMethod, jsonBody: jsonBody) { JSONResult, error in
+            
+            if let error = error {
+                completionHandler(succes: false, message: "Error in Network connection", error: error)
+            } else {
+                if let accountDictionary = JSONResult.valueForKey(UdacityClient.JSONResponseKeys.account) as? NSDictionary {
+                    if let userID = accountDictionary.valueForKey(UdacityClient.JSONResponseKeys.userID) as? String {
+                        self.getUserData(userID) {succes, error in
+                            if succes {
+                                completionHandler(succes: true, message: "", error: nil)
+                            } else {
+                                completionHandler(succes: false, message: "userid unknown", error: nil)
+                            }
+                        }
+                    } else {
+                        completionHandler(succes: false, message: "error parsing Udacity response", error: NSError(domain: "postSessionToUdacity parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postSessionToUdacity"]))
+                    }
+                } else {
+                    if let message = JSONResult.valueForKey(UdacityClient.JSONResponseKeys.errorMessage) as? String {
+                        completionHandler(succes: false, message: message, error: nil)
+                    }
+                }
+            }
+        }
+    }
+
     
     // getUserData is made private so it can only be accessed from this file
     private func getUserData(userID: String, completionHandler: (succes: Bool, error: NSError?) -> Void) {

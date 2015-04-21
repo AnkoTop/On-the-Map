@@ -140,7 +140,7 @@ extension ParseClient {
             ParseClient.JSONBodyKeys.firstName: udacityUser.firstName as String,
             ParseClient.JSONBodyKeys.lastName: udacityUser.lastName as String,
             ParseClient.JSONBodyKeys.mapString: studentLocation.mapString as String,
-            ParseClient.JSONBodyKeys.mediaURL: studentLocation.mediaURL as String,
+            ParseClient.JSONBodyKeys.mediaURL: studentLocation.mediaURL as String!,
             ParseClient.JSONBodyKeys.latitude: studentLocation.lattitude as Float!,
             ParseClient.JSONBodyKeys.longitude: studentLocation.longitude as Float!
         ]

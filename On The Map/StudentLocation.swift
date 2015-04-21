@@ -24,7 +24,7 @@ struct StudentLocation {
     var firstName = ""
     var lastName = ""
     var mapString = ""
-    var mediaURL = ""
+    var mediaURL: String?
     var lattitude: Float?
     var longitude: Float?
     var createdAt: NSDate?
@@ -43,7 +43,7 @@ struct StudentLocation {
         firstName = dictionary[ParseClient.JSONResponseKeys.firstName] as! String
         lastName = dictionary[ParseClient.JSONResponseKeys.lastName] as! String
         mapString = dictionary[ParseClient.JSONResponseKeys.mapString] as! String
-        mediaURL = dictionary[ParseClient.JSONResponseKeys.mediaURL] as! String
+        mediaURL = dictionary[ParseClient.JSONResponseKeys.mediaURL] as? String
         lattitude = dictionary[ParseClient.JSONResponseKeys.latitude] as? Float
         longitude = dictionary[ParseClient.JSONResponseKeys.longitude] as? Float
         createdAt = dictionary[ParseClient.JSONResponseKeys.createdAt] as? NSDate

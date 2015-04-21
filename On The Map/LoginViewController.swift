@@ -8,11 +8,12 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
     
     @IBOutlet weak var loginEmail: UITextField!
     @IBOutlet weak var loginPassword: UITextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
     
     var session: NSURLSession!
    
@@ -21,18 +22,36 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         self.activityIndicator.hidesWhenStopped = true
         self.loginEmail.delegate = self
-        self.loginPassword.delegate = self;
+        self.loginPassword.delegate = self
+        self.facebookLoginButton.delegate = self;
 
         // Do any additional setup after loading the view.
         session = NSURLSession.sharedSession()
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
+        // Check if user is logged in with facebook
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            self.loginToUdacityWithFacebook(FBSDKAccessToken.currentAccessToken().tokenString)
+       }
+    }
  
  
     @IBAction func startSignUp(sender: UIButton) {
        UIApplication.sharedApplication().openURL(NSURL(string:UdacityClient.Constants.baseSecureURL + UdacityClient.Methods.signUp)!)
     }
     
+    
+    func loginToUdacityWithFacebook(token: String) {
+             UdacityClient.sharedInstance().establishFBTokenSession(token) { succes, message, error in
+            if succes {
+                self.completeLogin()
+            } else {
+                self.showLoginFailedAlert(message)
+            }
+        }
+    }
     
     @IBAction func loginToUdacity(sender: UIButton) {
         self.view.endEditing(true)
@@ -58,7 +77,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }))
         presentViewController(loginAlert, animated: true, completion: nil)
     }
-
     
     
     func completeLogin() {
@@ -73,6 +91,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
+    }
+    
+    //Facebook delegate
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+         if ((error) != nil) {
+            self.showLoginFailedAlert("Facebook login failed")
+        } else {
+           self.loginToUdacityWithFacebook(FBSDKAccessToken.currentAccessToken().tokenString)
+        }
+    }
+
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        // no action
     }
 
 }

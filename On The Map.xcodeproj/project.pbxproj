@@ -13,6 +13,7 @@
 		A4051D2E1AD3C55E0017A8D0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A4051D2C1AD3C55E0017A8D0 /* LaunchScreen.xib */; };
 		A4051D3A1AD3C55E0017A8D0 /* On_The_MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4051D391AD3C55E0017A8D0 /* On_The_MapTests.swift */; };
 		A47F6A141AE2943E00E125D2 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A47F6A131AE2943E00E125D2 /* FBSDKCoreKit.framework */; };
+		A47F6A171AE50F9000E125D2 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A47F6A161AE50F9000E125D2 /* FBSDKLoginKit.framework */; };
 		A497ACB21AD7BED700575518 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB11AD7BED700575518 /* UdacityClient.swift */; };
 		A497ACB51AD7BF3900575518 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB41AD7BF3900575518 /* UdacityConstants.swift */; };
 		A497ACB71AD7DCEE00575518 /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB61AD7DCEE00575518 /* UdacityConvenience.swift */; };
@@ -48,7 +49,9 @@
 		A4051D331AD3C55E0017A8D0 /* On The MapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "On The MapTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4051D381AD3C55E0017A8D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4051D391AD3C55E0017A8D0 /* On_The_MapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = On_The_MapTests.swift; sourceTree = "<group>"; };
-		A47F6A131AE2943E00E125D2 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		A47F6A131AE2943E00E125D2 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		A47F6A151AE29AEB00E125D2 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		A47F6A161AE50F9000E125D2 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A497ACB11AD7BED700575518 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		A497ACB41AD7BF3900575518 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 		A497ACB61AD7DCEE00575518 /* UdacityConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConvenience.swift; sourceTree = "<group>"; };
@@ -72,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A47F6A171AE50F9000E125D2 /* FBSDKLoginKit.framework in Frameworks */,
 				A47F6A141AE2943E00E125D2 /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,7 +93,6 @@
 		A4051D151AD3C55E0017A8D0 = {
 			isa = PBXGroup;
 			children = (
-				A47F6A131AE2943E00E125D2 /* FBSDKCoreKit.framework */,
 				A4051D201AD3C55E0017A8D0 /* On The Map */,
 				A4051D361AD3C55E0017A8D0 /* On The MapTests */,
 				A4051D1F1AD3C55E0017A8D0 /* Products */,
@@ -112,8 +115,10 @@
 				A497ACB31AD7BF1700575518 /* Model */,
 				A497ACC71AD81F1500575518 /* View */,
 				A497ACC01AD8142D00575518 /* Controllers */,
+				A47F6A181AE5162700E125D2 /* Facebook Framework */,
 				A4051D211AD3C55E0017A8D0 /* Supporting Files */,
 				A4051D2A1AD3C55E0017A8D0 /* Images.xcassets */,
+				A47F6A151AE29AEB00E125D2 /* Bridging-Header.h */,
 			);
 			path = "On The Map";
 			sourceTree = "<group>";
@@ -144,6 +149,15 @@
 				A4051D381AD3C55E0017A8D0 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A47F6A181AE5162700E125D2 /* Facebook Framework */ = {
+			isa = PBXGroup;
+			children = (
+				A47F6A161AE50F9000E125D2 /* FBSDKLoginKit.framework */,
+				A47F6A131AE2943E00E125D2 /* FBSDKCoreKit.framework */,
+			);
+			name = "Facebook Framework";
 			sourceTree = "<group>";
 		};
 		A497ACB31AD7BF1700575518 /* Model */ = {
@@ -341,9 +355,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -383,9 +398,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -418,6 +434,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CLANG_ENABLE_MODULES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/reactivity/Documents/FacebookSDK,
@@ -425,7 +443,9 @@
 				INFOPLIST_FILE = "On The Map/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "On The Map/Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -433,6 +453,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CLANG_ENABLE_MODULES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/reactivity/Documents/FacebookSDK,
@@ -440,7 +462,9 @@
 				INFOPLIST_FILE = "On The Map/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "On The Map/Bridging-Header.h";
 			};
 			name = Release;
 		};
