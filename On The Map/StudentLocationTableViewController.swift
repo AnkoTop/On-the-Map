@@ -17,27 +17,39 @@ class StudentLocationTableViewController: UITableViewController, UITableViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // get a list of (100) student locations
-        ParseClient.sharedInstance().getStudentLocations() {succes, message, error in
-            if succes {
-                self.studentLocations = globalStudentLocations
-            } else {
-                var noStudentLocationsAlert = UIAlertController(title: "Student Locations", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-                noStudentLocationsAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in  //do nothing
-                }))
-                self.presentViewController(noStudentLocationsAlert, animated: true, completion: nil)
+        // Get the data for the first time
+        let qos = Int(QOS_CLASS_USER_INITIATED.value)
+        // check if there is an existing studentLocation
+        dispatch_async(dispatch_get_global_queue(qos, 0)) {
+            if udacityUser.hasStudentLocation == nil {
+                ParseClient.sharedInstance().checkForStudentLocation(){ result, error in
+                    // do nothing
+                }
             }
         }
-        
-        // check if there is an existing studentLocation
-        if udacityUser.hasStudentLocation == nil {
-            ParseClient.sharedInstance().checkForStudentLocation(){ result, error in
-                // do nothing
+        // Get the studentLocations of the main queue
+        dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
+            ParseClient.sharedInstance().getAllStudentLocations() {succes, message, error in
+                dispatch_async(dispatch_get_main_queue()) {
+                    if !succes {
+                        var noStudentLocationsAlert = UIAlertController(title: "Student Locations", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        noStudentLocationsAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in  //do nothing
+                        }))
+                        self.presentViewController(noStudentLocationsAlert, animated: true, completion: nil)
+                    }
+                }
             }
         }
         
         // Listen for updates of the StudenLocation data
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTableView", name: StudentLocationNotificationKey , object: nil)
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        
+        self.studentLocations = globalStudentLocations
     }
     
     
@@ -47,14 +59,8 @@ class StudentLocationTableViewController: UITableViewController, UITableViewDele
             self.studentLocationTableView.reloadData()
         }
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
-        
-        self.studentLocations = globalStudentLocations
-    }
-    
-    // Tableview delegates
+
+    // MARK: - Tableview delegates
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.studentLocations.count
     }

@@ -25,7 +25,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Textfield delegates
         self.locationSearchString.delegate = self
         self.studentURL.delegate = self
     }
@@ -113,17 +112,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    // URL validity checker
-    func isValidaUrl (stringURL : NSString) -> Bool {
-        
-        var urlRegEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
-        let predicate = NSPredicate(format:"SELF MATCHES %@", argumentArray:[urlRegEx])
-        var urlTest = NSPredicate.predicateWithSubstitutionVariables(predicate)
-        
-        return predicate.evaluateWithObject(stringURL)
-    }
-
-    
     @IBAction func deleteCurrentLocation(sender: UIBarButtonItem) {
         //remove existing location (show alert)
         var removeAlert = UIAlertController(title: "Alert", message: "You are about to remove your existing student location,", preferredStyle: UIAlertControllerStyle.Alert)
@@ -138,7 +126,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
         presentViewController(removeAlert, animated: true, completion: nil)
     }
     
-    // cancel entering the update/creation StudentLocation
+
     @IBAction func cancelLocation(sender: UIBarButtonItem) {
         //depending on what we see either show previous view (find location) or cancel th addition of a location
         if self.view.viewWithTag(1)!.hidden {
@@ -155,7 +143,18 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    // Helper: show alert
+    // MARK: - Helper: URL validity checker
+    func isValidaUrl (stringURL : NSString) -> Bool {
+        
+        var urlRegEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+        let predicate = NSPredicate(format:"SELF MATCHES %@", argumentArray:[urlRegEx])
+        var urlTest = NSPredicate.predicateWithSubstitutionVariables(predicate)
+        
+        return predicate.evaluateWithObject(stringURL)
+    }
+
+    
+    // MARK: - Helper: show alert
     func showAlertWithOkAndNoAction(title: String, message: String) {
         var generalAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         generalAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in  //do nothing
@@ -164,7 +163,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    //textfield delegate
+    // MARK: - textfield delegate
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false

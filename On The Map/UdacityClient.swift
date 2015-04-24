@@ -19,7 +19,6 @@ class UdacityClient : NSObject {
     
     
     func taskForPOSTMethod(method: String, jsonBody: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
-    
         let urlString = Constants.baseSecureURL + method
         let url = NSURL(string: urlString)!
         let request = NSMutableURLRequest(URL: url)
@@ -46,7 +45,6 @@ class UdacityClient : NSObject {
     }
     
     func taskForGETMethod(method: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
-        
         let urlString = Constants.baseSecureURL + method
         let url = NSURL(string: urlString)!
         let request = NSURLRequest(URL: url)
@@ -67,7 +65,7 @@ class UdacityClient : NSObject {
     }
     
 
-    /* Helper: Given a response with error, see if a status_message is returned, otherwise return the previous error */
+    //Helper: Given a response with error, see if a status_message is returned, otherwise return the previous error
     class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
         
         if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
@@ -86,7 +84,7 @@ class UdacityClient : NSObject {
     
     
 
-    /* Helper: Given raw JSON, return a usable Foundation object */
+    // Helper: Given raw JSON, return a usable Foundation object
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
     
         var parsingError: NSError? = nil
@@ -101,7 +99,7 @@ class UdacityClient : NSObject {
     }
     
     
-    /* Shared instance */
+    // Shared instance 
     class func sharedInstance() -> UdacityClient {
         
         struct Singleton {

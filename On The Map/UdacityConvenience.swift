@@ -22,7 +22,6 @@ extension UdacityClient {
             ]
         
         let task = taskForPOSTMethod(mutableMethod, jsonBody: jsonBody) { JSONResult, error in
-            
             if let error = error {
                 completionHandler(succes: false, message: "Error in Network connection", error: error)
             } else {
@@ -58,7 +57,6 @@ extension UdacityClient {
             ]
         
         let task = taskForPOSTMethod(mutableMethod, jsonBody: jsonBody) { JSONResult, error in
-            
             if let error = error {
                 completionHandler(succes: false, message: "Error in Network connection", error: error)
             } else {
@@ -90,7 +88,6 @@ extension UdacityClient {
         var mutableMethod : String = Methods.getUserData + userID
         
         let task = taskForGETMethod(mutableMethod) { JSONResult, error in
-            
             if let error = error {
                 completionHandler(succes: false, error: error)
             } else {

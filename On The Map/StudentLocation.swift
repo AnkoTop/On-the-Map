@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 
 // Global accesible data
@@ -29,7 +30,6 @@ struct StudentLocation {
     var longitude: Float?
     var createdAt: NSDate?
     var updatedAt: NSDate?
-    
     
     init () {
         // default constructor

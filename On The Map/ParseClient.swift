@@ -18,9 +18,8 @@ class ParseClient: NSObject {
     }
 
     // GETMethod
-    func taskForGETMethod(method: String, parameters: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
-        
-        let urlString = Constants.baseSecureURL + method + parameters
+    func taskForGETMethod(method: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        let urlString = Constants.baseSecureURL + method
         let url = NSURL(string: urlString)!
         let request = NSMutableURLRequest(URL: url)
         request.addValue(Constants.applicationID, forHTTPHeaderField: "X-Parse-Application-Id")
@@ -43,7 +42,6 @@ class ParseClient: NSObject {
 
     // POSTMethod (create StudentLocation)
     func taskForPOSTMethod(jsonBody: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
-        
         let urlString = Constants.baseSecureURL
         let url = NSURL(string: urlString)!
         let request = NSMutableURLRequest(URL: url)
@@ -96,8 +94,6 @@ class ParseClient: NSObject {
         return task
     }
 
-    
-    // DELETEMethod (delete StudentLocation)
     func taskForDELETEMethod(objectId: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         let urlString = Constants.baseSecureURL + "/" + objectId
@@ -120,11 +116,9 @@ class ParseClient: NSObject {
         
         return task
     }
-
-
     
     
-    /* Helper: Given a response with error, see if a status_message is returned, otherwise return the previous error */
+    // Helper: Given a response with error, see if a status_message is returned, otherwise return the previous error
     class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
         
         if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
@@ -141,9 +135,7 @@ class ParseClient: NSObject {
     }
     
     
-    
-    
-    /* Helper: Given raw JSON, return a usable Foundation object */
+    // Helper: Given raw JSON, return a usable Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         
         var parsingError: NSError? = nil
@@ -158,7 +150,7 @@ class ParseClient: NSObject {
     }
     
     
-    /* Shared instance */
+    // Shared instance
     class func sharedInstance() -> ParseClient {
         
         struct Singleton {
@@ -167,6 +159,5 @@ class ParseClient: NSObject {
         
         return Singleton.sharedInstance
     }
-    
 
 }

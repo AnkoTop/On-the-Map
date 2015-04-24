@@ -11,32 +11,42 @@ import Foundation
 
 extension ParseClient {
     
-    func getStudentLocations(completionHandler: (succes:Bool, message: String, error: NSError?) -> Void) {
-        var mutableMethod : String = Methods.baseLimit
-        var parameters = ""
+    func getAllStudentLocations(completionHandler: (succes:Bool, message: String, error: NSError?) -> Void) {
+        // get the first batch
+        getStudentLocations(Methods.limit, skip: 0, completionHandler: completionHandler)
+     }
+ 
+    func getStudentLocations (limit: Int, skip: Int, completionHandler: (succes:Bool, message: String, error: NSError?) -> Void) {
+        var mutableMethod = Methods.limitResults + String(limit) + Methods.skipResults + String(skip)
         
-        let task = taskForGETMethod(mutableMethod, parameters: parameters) { JSONResult, error in
+        let task = taskForGETMethod(mutableMethod) { JSONResult, error in
             if let error = error {
                 completionHandler(succes: false, message: "Error in Network connection", error: error)
             } else {
-              if let results = JSONResult.valueForKey(ParseClient.JSONResponseKeys.results) as? [[String : AnyObject]] {
+                if let results = JSONResult.valueForKey(ParseClient.JSONResponseKeys.results) as? [[String : AnyObject]] {
                     var studentLocations = StudentLocation.studentLocationFromResults(results)
-                completionHandler(succes: true, message: "", error: nil)
-                // update the STudentLocations
-                globalStudentLocations = studentLocations
-                 } else {
-                completionHandler(succes: false, message:"Error parsing result", error: NSError(domain: "getStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
+                    // update the StudentLocations
+                    globalStudentLocations += studentLocations
+                    // If necessary recursively call self to get the next batch of locations
+                    if studentLocations.count == Methods.limit {
+                        var nextSkip = skip + Methods.skip
+                        self.getStudentLocations(Methods.limit, skip: nextSkip, completionHandler: completionHandler)
+                    } else {
+                        completionHandler(succes: true, message: "", error: nil)
                     }
+                } else {
+                    completionHandler(succes: false, message:"Error parsing result", error: NSError(domain: "getStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
                 }
             }
         }
+    }
+    
     
     func checkForStudentLocation(completionHandler: (result: Bool, error: NSError?) -> Void) {
-        var mutableMethod = ""
         let userId = udacityUser.userId
-        var parameters = "?where=%7B%22uniqueKey%22%3A%22" + userId + "%22%7D"
+        var mutableMethod = Methods.searchOnUserPart1 + userId + Methods.searchOnUserPart2
         
-        let task = taskForGETMethod(mutableMethod, parameters: parameters) { JSONResult, error in
+        let task = taskForGETMethod(mutableMethod) { JSONResult, error in
             if let error = error {
                 completionHandler(result: false, error: error)
             } else {
@@ -48,8 +58,8 @@ extension ParseClient {
                     } else {
                         let objectId = studentLocations[0].objectId
                         udacityUser.setStudentLocation(true, objectId: objectId)
-                      completionHandler(result:true, error: nil)
-                        }
+                        completionHandler(result:true, error: nil)
+                    }
                 } else {
                     completionHandler(result: false, error: NSError(domain: "getStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
                 }
@@ -68,13 +78,10 @@ extension ParseClient {
                 // new: POST
                postStudentLocation(studentLocation, completionHandler: completionHandler)
             }
-        } else {
-            // REMOVE THIS LINE & the else branch
-            println("SHOULD NOT BE POSSIBLE!")
         }
     }
   
-    // create a StudentLocationmessage: String,
+    // add a new StudentLocation
     func postStudentLocation(studentLocation: StudentLocation, completionHandler: (succes: Bool, message: String, error: NSError?) -> Void) {
 
         let jsonBody = makeJsonBody(studentLocation)
@@ -86,10 +93,10 @@ extension ParseClient {
                     // OK update the udacityUserData
                     udacityUser.setStudentLocation(true, objectId: objectId)
                     // and refresh the locations list
-                    self.getStudentLocations(completionHandler)
+                    self.getAllStudentLocations(completionHandler)
                 completionHandler(succes: true, message: "", error: nil)
                  } else {
-                completionHandler(succes: false, message: "Errro parsing result", error: NSError(domain: "POSTStudentLocation parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse POSTStudentLocation"]))
+                completionHandler(succes: false, message: "Error parsing result", error: NSError(domain: "POSTStudentLocation parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse POSTStudentLocation"]))
                 }
             }
         }
@@ -106,7 +113,7 @@ extension ParseClient {
             } else {
                 if let updatedAt = JSONResult.valueForKey(ParseClient.JSONResponseKeys.updatedAt) as? String {
                     // OK  udacityUser data stays the same only refresh the list
-                    self.getStudentLocations(completionHandler)
+                    self.getAllStudentLocations(completionHandler)
                     completionHandler(succes: true, message: "",error: nil)
                  } else {
                     completionHandler(succes: false, message: "Error parsing result", error: NSError(domain: "PUTStudentLocation parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse PUTStudentLocation"]))
@@ -127,13 +134,13 @@ extension ParseClient {
                 // there is no returnmessage if delete succeeded; update the userdata
                 udacityUser.setStudentLocation(false, objectId: "")
                 // refresh the list
-                self.getStudentLocations(completionHandler)
+                self.getAllStudentLocations(completionHandler)
             }
         }
     }
     
     
-    //helper: fabricate jsonBody
+    // MARK: - Helper: fabricate jsonBody
      private func makeJsonBody (studentLocation: StudentLocation) -> [String:AnyObject] {
         let jsonBody : [String:AnyObject] = [
             ParseClient.JSONBodyKeys.uniqueKey: udacityUser.userId as String,

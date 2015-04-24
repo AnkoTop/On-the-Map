@@ -15,25 +15,23 @@ class StudentTabBarViewController: UITabBarController  {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        // add 2 navagionbutton items on the right side
+        // add 2 navigationbutton items on the right side
         self.navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshStudentLocations"), UIBarButtonItem(image: UIImage(named: "pin.png"), style: .Plain, target: self, action: "addStudentLocation")]
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        
         if (FBSDKAccessToken.currentAccessToken() != nil) {
             self.logoutFacebook.enabled = true
         } else {
             self.logoutFacebook.enabled = false
         }
-
     }
     
     @IBAction func logoutFromFacebook(sender: UIBarButtonItem) {
-        println("before logout token: \(FBSDKAccessToken.currentAccessToken()) ")
         let facebookLoginManager = FBSDKLoginManager()
         facebookLoginManager.logOut()
-          println("after logout token: \(FBSDKAccessToken.currentAccessToken()) ")
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -44,14 +42,21 @@ class StudentTabBarViewController: UITabBarController  {
     }
 
    func refreshStudentLocations() {
-        ParseClient.sharedInstance().getStudentLocations() {succes, message, error in
-            if !succes {
-                var noStudentLocationsAlert = UIAlertController(title: "Student Locations", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-                noStudentLocationsAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in  //do nothing
-                }))
-                self.presentViewController(noStudentLocationsAlert, animated: true, completion: nil)
+        //refresh of the main-queue
+        let qos = Int(QOS_CLASS_USER_INITIATED.value)
+        dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
+            ParseClient.sharedInstance().getAllStudentLocations() {succes, message, error in
+                dispatch_async(dispatch_get_main_queue()) {
+                    if !succes {
+                        var noStudentLocationsAlert = UIAlertController(title: "Student Locations", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        noStudentLocationsAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in  //do nothing
+                        }))
+                        self.presentViewController(noStudentLocationsAlert, animated: true, completion: nil)
+                    }
+                }
             }
         }
     }
+    
 }
 

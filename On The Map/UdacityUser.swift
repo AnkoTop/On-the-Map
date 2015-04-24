@@ -20,8 +20,7 @@ final class UdacityUser {
     var objectIdStudentLocation = ""
     
     private init() {}
-    
-    
+   
     func setDataUdacityUser(firstName: String, lastName: String, userId: String) {
         self.firstName = firstName
         self.lastName = lastName
