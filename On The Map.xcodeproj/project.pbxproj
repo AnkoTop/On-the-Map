@@ -12,10 +12,10 @@
 		A4051D2B1AD3C55E0017A8D0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4051D2A1AD3C55E0017A8D0 /* Images.xcassets */; };
 		A4051D2E1AD3C55E0017A8D0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A4051D2C1AD3C55E0017A8D0 /* LaunchScreen.xib */; };
 		A4051D3A1AD3C55E0017A8D0 /* On_The_MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4051D391AD3C55E0017A8D0 /* On_The_MapTests.swift */; };
+		A41C97A81AEB9C3C00089483 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A45CE6371AEB943A00ECF541 /* FBSDKCoreKit.framework */; };
+		A41C97A91AEB9C4700089483 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A45CE6391AEB944E00ECF541 /* FBSDKLoginKit.framework */; };
 		A421F9791AE90BEC00575BF0 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A421F9781AE90BEC00575BF0 /* StatisticsViewController.swift */; };
 		A421F97B1AE973CA00575BF0 /* AppStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A421F97A1AE973CA00575BF0 /* AppStatistics.swift */; };
-		A45CE6381AEB943A00ECF541 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A45CE6371AEB943A00ECF541 /* FBSDKCoreKit.framework */; };
-		A45CE63A1AEB944E00ECF541 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A45CE6391AEB944E00ECF541 /* FBSDKLoginKit.framework */; };
 		A497ACB21AD7BED700575518 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB11AD7BED700575518 /* UdacityClient.swift */; };
 		A497ACB51AD7BF3900575518 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB41AD7BF3900575518 /* UdacityConstants.swift */; };
 		A497ACB71AD7DCEE00575518 /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB61AD7DCEE00575518 /* UdacityConvenience.swift */; };
@@ -79,8 +79,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A45CE63A1AEB944E00ECF541 /* FBSDKLoginKit.framework in Frameworks */,
-				A45CE6381AEB943A00ECF541 /* FBSDKCoreKit.framework in Frameworks */,
+				A41C97A91AEB9C4700089483 /* FBSDKLoginKit.framework in Frameworks */,
+				A41C97A81AEB9C3C00089483 /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
