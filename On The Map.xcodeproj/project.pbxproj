@@ -16,6 +16,7 @@
 		A41C97AF1AEBA2FA00089483 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A41C97AE1AEBA2FA00089483 /* FBSDKLoginKit.framework */; };
 		A421F9791AE90BEC00575BF0 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A421F9781AE90BEC00575BF0 /* StatisticsViewController.swift */; };
 		A421F97B1AE973CA00575BF0 /* AppStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A421F97A1AE973CA00575BF0 /* AppStatistics.swift */; };
+		A42FE4141AF235A6006DAF38 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42FE4131AF235A6006DAF38 /* Reachability.swift */; };
 		A497ACB21AD7BED700575518 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB11AD7BED700575518 /* UdacityClient.swift */; };
 		A497ACB51AD7BF3900575518 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB41AD7BF3900575518 /* UdacityConstants.swift */; };
 		A497ACB71AD7DCEE00575518 /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497ACB61AD7DCEE00575518 /* UdacityConvenience.swift */; };
@@ -55,6 +56,7 @@
 		A41C97AE1AEBA2FA00089483 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A421F9781AE90BEC00575BF0 /* StatisticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		A421F97A1AE973CA00575BF0 /* AppStatistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStatistics.swift; sourceTree = "<group>"; };
+		A42FE4131AF235A6006DAF38 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		A47F6A151AE29AEB00E125D2 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		A497ACB11AD7BED700575518 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		A497ACB41AD7BF3900575518 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		A4051D211AD3C55E0017A8D0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A42FE4131AF235A6006DAF38 /* Reachability.swift */,
 				A4B161751AD6C4B00084EA4E /* Roboto-Thin.ttf */,
 				A4B161741AD6C4A80084EA4E /* Roboto-Regular.ttf */,
 				A4B161731AD6C49D0084EA4E /* Roboto-Medium.ttf */,
@@ -308,6 +311,7 @@
 				A497ACBB1AD8000A00575518 /* ParseConvenience.swift in Sources */,
 				A497ACB51AD7BF3900575518 /* UdacityConstants.swift in Sources */,
 				A497ACC61AD81C9100575518 /* InformationPostingViewController.swift in Sources */,
+				A42FE4141AF235A6006DAF38 /* Reachability.swift in Sources */,
 				A421F9791AE90BEC00575BF0 /* StatisticsViewController.swift in Sources */,
 				A497ACB91AD7FFE500575518 /* ParseClient.swift in Sources */,
 				A497ACBF1AD810A600575518 /* StudentLocationTableViewController.swift in Sources */,

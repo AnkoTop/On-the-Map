@@ -18,7 +18,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var studentURL: UITextField!
     @IBOutlet weak var cancelLocation: UIBarButtonItem!
     
-    @IBOutlet weak var geoActivity: UIActivityIndicatorView!
     
     var myAnnotation = MKPointAnnotation()
     
@@ -47,11 +46,10 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func findLocation(sender: UIButton) {
         
-        self.geoActivity.startAnimating()
         if locationSearchString.text == "" {
             self.showAlertWithOkAndNoAction("Find location", message: "You must enter a valid location")
         } else {
-            
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             // try to reverse geolocate the searchstring to a position
             var geoCoder = CLGeocoder()
             geoCoder.geocodeAddressString(locationSearchString.text, completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
@@ -76,14 +74,22 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
                     self.view.viewWithTag(2)!.hidden = false
                     self.cancelLocation.title = "Back"
                     self.removeLocation.enabled = false
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 
                 } else {
-                    self.showAlertWithOkAndNoAction("Invalid Location", message: "The location you entered is not valid or could not be found")
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                    //check if it is location or networkerror
+                    let reachability = Reachability.reachabilityForInternetConnection()
+                    if reachability.isReachable() {
+                        self.showAlertWithOkAndNoAction("Invalid Location", message: "The location you entered is not valid or could not be found")
+                    }
+                    else {
+                        self.showAlertWithOkAndNoAction("Network error", message: "You have lost your internet connection")
+                    }
                 }
             })
         }
-        self.geoActivity.stopAnimating()
-    }
+     }
     
     
     @IBAction func submitStudenLocation(sender: UIButton) {

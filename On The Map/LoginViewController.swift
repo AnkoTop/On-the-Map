@@ -56,17 +56,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     @IBAction func loginToUdacity(sender: UIButton) {
         self.view.endEditing(true)
         
-        if loginEmail.text != "" && loginPassword.text != "" {
-            self.activityIndicator.startAnimating()
-            UdacityClient.sharedInstance().establishSession(loginEmail.text, password: loginPassword.text) { succes, message, error in
-                if succes {
-                   self.completeLogin()
-                } else {
-                   self.showLoginFailedAlert(message)
-                  }
-             }
+        // if user just acticated network and was logged in with facebook use this in all other cases use the normal login
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            self.loginToUdacityWithFacebook(FBSDKAccessToken.currentAccessToken().tokenString)
         } else {
-           self.showLoginFailedAlert("Both email and password must be filled!")
+            if loginEmail.text != "" && loginPassword.text != "" {
+                self.activityIndicator.startAnimating()
+                UdacityClient.sharedInstance().establishSession(loginEmail.text, password: loginPassword.text) { succes, message, error in
+                    if succes {
+                        self.completeLogin()
+                    } else {
+                        self.showLoginFailedAlert(message)
+                    }
+                }
+            } else {
+                self.showLoginFailedAlert("Both email and password must be filled!")
+            }
         }
     }
     
