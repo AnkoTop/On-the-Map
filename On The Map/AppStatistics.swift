@@ -38,7 +38,7 @@ class AppStatistics: NSObject {
         var totalDistance = 0.0
         
         // get the statistics based on all available studentLocations
-        var studentLocations = globalStudentLocations
+        let studentLocations = globalStudentLocations
         
         for location in studentLocations {
            
@@ -57,8 +57,8 @@ class AppStatistics: NSObject {
             }
             
             // Distance Calculations
-            var position = CLLocation(latitude: CLLocationDegrees(location.lattitude!),longitude: CLLocationDegrees(location.longitude!))
-            var distance = Int(position.distanceFromLocation(UdacityClient.Constants.location)/1000.0)
+            let position = CLLocation(latitude: CLLocationDegrees(location.lattitude!),longitude: CLLocationDegrees(location.longitude!))
+            let distance = Int(position.distanceFromLocation(UdacityClient.Constants.location)/1000.0)
             if distance < minDistance {
                 minDistance = distance
                 minName = location.firstName + " " + location.lastName
@@ -72,7 +72,7 @@ class AppStatistics: NSObject {
             totalDistance += position.distanceFromLocation(UdacityClient.Constants.location)
         }
         
-        var average = Int((totalDistance / Double(studentLocations.count)) / 1000)
+        let average = Int((totalDistance / Double(studentLocations.count)) / 1000)
         
         
         //fill the dictionary to return

@@ -25,15 +25,15 @@ class UdacityClient : NSObject {
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        var jsonifyError: NSError? = nil
-        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)!
+        //var jsonifyError: NSError? = nil
+        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: [])
         
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
             if let error = downloadError {
-                let newError = UdacityClient.errorForData(data, response: response, error: error)
-                completionHandler(result: nil, error: downloadError)
+                //let newError = UdacityClient.errorForData(data, response: response, error: error)
+                completionHandler(result: nil, error: error)
             } else {
-                let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
+                let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
                 UdacityClient.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
             }
         }
@@ -51,10 +51,10 @@ class UdacityClient : NSObject {
         
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
             if let error = downloadError {
-                let newError = UdacityClient.errorForData(data, response: response, error: error)
-                completionHandler(result: nil, error: downloadError)
+                //let newError = UdacityClient.errorForData(data, response: response, error: error)
+                completionHandler(result: nil, error: error)
             } else {
-                let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
+                let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
                 UdacityClient.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
             }
         }
@@ -68,7 +68,7 @@ class UdacityClient : NSObject {
     //Helper: Given a response with error, see if a status_message is returned, otherwise return the previous error
     class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
         
-        if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
+        if let parsedResult = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as? [String : AnyObject] {
             
             if let errorMessage = parsedResult[UdacityClient.JSONResponseKeys.errorMessage] as? String {
                 
@@ -89,7 +89,13 @@ class UdacityClient : NSObject {
     
         var parsingError: NSError? = nil
     
-        let parsedResult: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
+        let parsedResult: AnyObject?
+        do {
+            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
+        } catch let error as NSError {
+            parsingError = error
+            parsedResult = nil
+        }
     
         if let error = parsingError {
             completionHandler(result: nil, error: error)

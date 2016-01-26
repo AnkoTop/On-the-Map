@@ -51,22 +51,22 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
         } else {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             // try to reverse geolocate the searchstring to a position
-            var geoCoder = CLGeocoder()
-            geoCoder.geocodeAddressString(locationSearchString.text, completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
-                if let placemark = placemarks?[0] as? CLPlacemark {
+            let geoCoder = CLGeocoder()
+            geoCoder.geocodeAddressString(locationSearchString.text!, completionHandler: {(placemarks: [CLPlacemark]?, error: NSError?) -> Void in
+                if let placemark = placemarks?[0] {
                 
                     let newPlace = MKPlacemark(placemark: placemark)
                 
-                    self.myAnnotation.coordinate = (CLLocationCoordinate2DMake(placemark.location.coordinate.latitude, placemark.location.coordinate.longitude))
+                    self.myAnnotation.coordinate = (CLLocationCoordinate2DMake(placemark.location!.coordinate.latitude, placemark.location!.coordinate.longitude))
                     self.myAnnotation.title = newPlace.title
                     self.myAnnotation.subtitle = "Is this the place you where searching for?"
                     self.mapView.addAnnotation(self.myAnnotation)
                     
                     // Set the 'scale/zoom' of the map
-                    var span = MKCoordinateSpanMake(0.05, 0.05)
+                    let span = MKCoordinateSpanMake(0.05, 0.05)
                     //create MKCoordinateRegion structure
-                    var center = CLLocationCoordinate2DMake(placemark.location.coordinate.latitude, placemark.location.coordinate.longitude)
-                    var region = MKCoordinateRegionMake(center, span)
+                    let center = CLLocationCoordinate2DMake(placemark.location!.coordinate.latitude, placemark.location!.coordinate.longitude)
+                    let region = MKCoordinateRegionMake(center, span)
                     //set the region of the placemark and the map will show it
                     self.mapView.setRegion(region, animated: true)
  
@@ -79,13 +79,16 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
                 } else {
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     //check if it is location or networkerror
-                    let reachability = Reachability.reachabilityForInternetConnection()
-                    if reachability.isReachable() {
-                        self.showAlertWithOkAndNoAction("Invalid Location", message: "The location you entered is not valid or could not be found")
-                    }
-                    else {
-                        self.showAlertWithOkAndNoAction("Network error", message: "You have lost your internet connection")
-                    }
+                    do {
+                        let reachability = try Reachability.reachabilityForInternetConnection()
+                        if reachability.isReachable() {
+                            self.showAlertWithOkAndNoAction("Invalid Location", message: "The location you entered is not valid or could not be found")
+                        } else {
+                            self.showAlertWithOkAndNoAction("Network error", message: "You have lost your internet connection")
+                        }
+                    } catch {
+                            self.showAlertWithOkAndNoAction("Network error", message: "You have lost your internet connection")
+                        }
                 }
             })
         }
@@ -94,11 +97,11 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func submitStudenLocation(sender: UIButton) {
         // check if URL is correct: if not show an alert
-        if isValidaUrl(studentURL.text) {
+        if isValidaUrl(studentURL.text!) {
             // set the location data
             var newLocation = StudentLocation()
             newLocation.mediaURL = studentURL.text
-            newLocation.mapString = locationSearchString.text
+            newLocation.mapString = locationSearchString.text!
             newLocation.lattitude = Float(self.myAnnotation.coordinate.latitude as Double)
             newLocation.longitude = Float(self.myAnnotation.coordinate.longitude as Double)
            
@@ -120,7 +123,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func deleteCurrentLocation(sender: UIBarButtonItem) {
         //remove existing location (show alert)
-        var removeAlert = UIAlertController(title: "Alert", message: "You are about to remove your existing student location,", preferredStyle: UIAlertControllerStyle.Alert)
+        let removeAlert = UIAlertController(title: "Alert", message: "You are about to remove your existing student location,", preferredStyle: UIAlertControllerStyle.Alert)
         
         removeAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in
             //delete the location
@@ -152,9 +155,9 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Helper: URL validity checker
     func isValidaUrl (stringURL : NSString) -> Bool {
         
-        var urlRegEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+        let urlRegEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
         let predicate = NSPredicate(format:"SELF MATCHES %@", argumentArray:[urlRegEx])
-        var urlTest = NSPredicate.predicateWithSubstitutionVariables(predicate)
+        //var urlTest = NSPredicate.predicateWithSubstitutionVariables(predicate)
         
         return predicate.evaluateWithObject(stringURL)
     }
@@ -162,7 +165,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Helper: show alert
     func showAlertWithOkAndNoAction(title: String, message: String) {
-        var generalAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let generalAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         generalAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in  //do nothing
         }))
         presentViewController(generalAlert, animated: true, completion: nil)

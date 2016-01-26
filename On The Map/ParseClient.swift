@@ -27,10 +27,10 @@ class ParseClient: NSObject {
         
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
             if let error = downloadError {
-                let newError = ParseClient.errorForData(data, response: response, error: error)
-                completionHandler(result: nil, error: downloadError)
+                //let newError = ParseClient.errorForData(data, response: response, error: error)
+                completionHandler(result: nil, error: error)
             } else {
-                ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+                ParseClient.parseJSONWithCompletionHandler(data!, completionHandler: completionHandler)
             }
         }
         
@@ -49,15 +49,15 @@ class ParseClient: NSObject {
         request.addValue(Constants.applicationID, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(Constants.apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        var jsonifyError: NSError? = nil
-        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)!
+        //var jsonifyError: NSError? = nil
+        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: [])
         
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
             if let error = downloadError {
-                let newError = ParseClient.errorForData(data, response: response, error: error)
-                completionHandler(result: nil, error: downloadError)
+                //let newError = ParseClient.errorForData(data, response: response, error: error)
+                completionHandler(result: nil, error: error)
             } else {
-                ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+                ParseClient.parseJSONWithCompletionHandler(data!, completionHandler: completionHandler)
             }
         }
         
@@ -77,15 +77,15 @@ class ParseClient: NSObject {
         request.addValue(Constants.applicationID, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(Constants.apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        var jsonifyError: NSError? = nil
-        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)!
+        //var jsonifyError: NSError? = nil
+        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: [])
         
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
             if let error = downloadError {
-                let newError = ParseClient.errorForData(data, response: response, error: error)
-                completionHandler(result: nil, error: downloadError)
+                //let newError = ParseClient.errorForData(data, response: response, error: error)
+                completionHandler(result: nil, error: error)
             } else {
-                ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+                ParseClient.parseJSONWithCompletionHandler(data!, completionHandler: completionHandler)
             }
         }
         
@@ -105,10 +105,10 @@ class ParseClient: NSObject {
         
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
             if let error = downloadError {
-                let newError = ParseClient.errorForData(data, response: response, error: error)
-                completionHandler(result: nil, error: downloadError)
+                //let newError = ParseClient.errorForData(data, response: response, error: error)
+                completionHandler(result: nil, error: error)
             } else {
-                ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+                ParseClient.parseJSONWithCompletionHandler(data!, completionHandler: completionHandler)
             }
         }
         
@@ -121,7 +121,7 @@ class ParseClient: NSObject {
     // Helper: Given a response with error, see if a status_message is returned, otherwise return the previous error
     class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
         
-        if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
+        if let parsedResult = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as? [String : AnyObject] {
             
             if let errorMessage = parsedResult[ParseClient.JSONResponseKeys.errorMessage] as? String {
                 
@@ -140,7 +140,13 @@ class ParseClient: NSObject {
         
         var parsingError: NSError? = nil
         
-        let parsedResult: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
+        let parsedResult: AnyObject?
+        do {
+            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
+        } catch let error as NSError {
+            parsingError = error
+            parsedResult = nil
+        }
         
         if let error = parsingError {
             completionHandler(result: nil, error: error)

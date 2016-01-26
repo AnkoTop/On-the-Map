@@ -62,7 +62,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         } else {
             if loginEmail.text != "" && loginPassword.text != "" {
                 self.activityIndicator.startAnimating()
-                UdacityClient.sharedInstance().establishSession(loginEmail.text, password: loginPassword.text) { succes, message, error in
+                UdacityClient.sharedInstance().establishSession(loginEmail.text!, password: loginPassword.text!) { succes, message, error in
                     if succes {
                         self.completeLogin()
                     } else {
@@ -85,7 +85,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     
     // MARK: - Helper: generic login alert
     func showLoginFailedAlert(message: String){
-        var loginAlert = UIAlertController(title: "Login failed", message: message, preferredStyle:   UIAlertControllerStyle.Alert)
+        let loginAlert = UIAlertController(title: "Login failed", message: message, preferredStyle:   UIAlertControllerStyle.Alert)
         loginAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in self.activityIndicator.stopAnimating()
         }))
         presentViewController(loginAlert, animated: true, completion: nil)

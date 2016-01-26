@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StudentLocationTableViewController: UITableViewController, UITableViewDelegate, UITableViewDataSource  {
+class StudentLocationTableViewController: UITableViewController {
 
     var studentLocations: [StudentLocation] = [StudentLocation]()
     
@@ -18,7 +18,7 @@ class StudentLocationTableViewController: UITableViewController, UITableViewDele
         super.viewDidLoad()
         
         // Get the data for the first time
-        let qos = Int(QOS_CLASS_USER_INITIATED.value)
+        let qos = Int(QOS_CLASS_USER_INITIATED.rawValue)
         // check if there is an existing studentLocation
         dispatch_async(dispatch_get_global_queue(qos, 0)) {
             if udacityUser.hasStudentLocation == nil {
@@ -32,7 +32,7 @@ class StudentLocationTableViewController: UITableViewController, UITableViewDele
             ParseClient.sharedInstance().getAllStudentLocations() {succes, message, error in
                 dispatch_async(dispatch_get_main_queue()) {
                     if !succes {
-                        var noStudentLocationsAlert = UIAlertController(title: "Student Locations", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        let noStudentLocationsAlert = UIAlertController(title: "Student Locations", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         noStudentLocationsAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in  //do nothing
                         }))
                         self.presentViewController(noStudentLocationsAlert, animated: true, completion: nil)
@@ -68,7 +68,7 @@ class StudentLocationTableViewController: UITableViewController, UITableViewDele
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let student = studentLocations[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("studentCell") as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("studentCell")! as UITableViewCell
         
         cell.textLabel!.text = student.firstName + " " + student.lastName
         cell.detailTextLabel!.text = student.mediaURL

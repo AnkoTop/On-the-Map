@@ -13,7 +13,7 @@ extension UdacityClient {
     // sesion with username/password
     func establishSession(username: String, password: String, completionHandler: (succes: Bool, message: String, error: NSError?) -> Void) {
         
-        var mutableMethod : String = Methods.signIn
+        let mutableMethod : String = Methods.signIn
         let jsonBody : [String:AnyObject] = [
             UdacityClient.JSONBodyKeys.udacity : [
                 UdacityClient.JSONBodyKeys.userName: username,
@@ -49,7 +49,7 @@ extension UdacityClient {
     //session with FacebookToken
     func establishFBTokenSession(token: String, completionHandler: (succes: Bool, message: String, error: NSError?) -> Void) {
         
-        var mutableMethod : String = Methods.signIn
+        let mutableMethod : String = Methods.signIn
         let jsonBody : [String:AnyObject] = [
             UdacityClient.JSONBodyKeys.facebook : [
                 UdacityClient.JSONBodyKeys.token: token
@@ -85,7 +85,7 @@ extension UdacityClient {
     // getUserData is made private so it can only be accessed from this file
     private func getUserData(userID: String, completionHandler: (succes: Bool, error: NSError?) -> Void) {
         
-        var mutableMethod : String = Methods.getUserData + userID
+        let mutableMethod : String = Methods.getUserData + userID
         
         let task = taskForGETMethod(mutableMethod) { JSONResult, error in
             if let error = error {

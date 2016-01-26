@@ -43,12 +43,12 @@ class StudentTabBarViewController: UITabBarController  {
 
    func refreshStudentLocations() {
         //refresh of the main-queue
-        let qos = Int(QOS_CLASS_USER_INITIATED.value)
+        let qos = Int(QOS_CLASS_USER_INITIATED.rawValue)
         dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
             ParseClient.sharedInstance().getAllStudentLocations() {succes, message, error in
                 dispatch_async(dispatch_get_main_queue()) {
                     if !succes {
-                        var noStudentLocationsAlert = UIAlertController(title: "Student Locations", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        let noStudentLocationsAlert = UIAlertController(title: "Student Locations", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         noStudentLocationsAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in  //do nothing
                         }))
                         self.presentViewController(noStudentLocationsAlert, animated: true, completion: nil)

@@ -39,7 +39,7 @@ class StatisticsViewController: UIViewController {
     }
 
     func updateStatistics() {
-        var newStats = AppStatistics()
+        let newStats = AppStatistics()
         let statisticsDictionary = newStats.returnStatistics()
         
         //Headings
@@ -52,7 +52,7 @@ class StatisticsViewController: UIViewController {
         label2.text = "There are \(statisticsDictionary[AppStatistics.totalStudentLocations]!) locations registered,"
         label3.text = "added by \(statisticsDictionary[AppStatistics.totalUniqueStudents]!) different students."
         var end = "locations."
-        if (statisticsDictionary[AppStatistics.totalUserLocations]!.toInt()) == 1 {
+        if (Int(statisticsDictionary[AppStatistics.totalUserLocations]!)) == 1 {
           end = "location."
         }
         label4.text = "You have \(statisticsDictionary[AppStatistics.totalUserLocations]!) active \(end)"

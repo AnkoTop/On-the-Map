@@ -17,19 +17,19 @@ extension ParseClient {
      }
  
     func getStudentLocations (limit: Int, skip: Int, completionHandler: (succes:Bool, message: String, error: NSError?) -> Void) {
-        var mutableMethod = Methods.limitResults + String(limit) + Methods.skipResults + String(skip)
+        let mutableMethod = Methods.limitResults + String(limit) + Methods.skipResults + String(skip)
         
         let task = taskForGETMethod(mutableMethod) { JSONResult, error in
             if let error = error {
                 completionHandler(succes: false, message: "Error in Network connection", error: error)
             } else {
                 if let results = JSONResult.valueForKey(ParseClient.JSONResponseKeys.results) as? [[String : AnyObject]] {
-                    var studentLocations = StudentLocation.studentLocationFromResults(results)
+                    let studentLocations = StudentLocation.studentLocationFromResults(results)
                     // update the StudentLocations
                     globalStudentLocations += studentLocations
                     // If necessary recursively call self to get the next batch of locations
                     if studentLocations.count == Methods.limit {
-                        var nextSkip = skip + Methods.skip
+                        let nextSkip = skip + Methods.skip
                         self.getStudentLocations(Methods.limit, skip: nextSkip, completionHandler: completionHandler)
                     } else {
                         completionHandler(succes: true, message: "", error: nil)
@@ -44,7 +44,7 @@ extension ParseClient {
     
     func checkForStudentLocation(completionHandler: (result: Bool, error: NSError?) -> Void) {
         let userId = udacityUser.userId
-        var mutableMethod = Methods.searchOnUserPart1 + userId + Methods.searchOnUserPart2
+        let mutableMethod = Methods.searchOnUserPart1 + userId + Methods.searchOnUserPart2
         
         let task = taskForGETMethod(mutableMethod) { JSONResult, error in
             if let error = error {
@@ -111,7 +111,7 @@ extension ParseClient {
             if let error = error {
                 completionHandler(succes: false, message: "Error in Network connection", error: error)
             } else {
-                if let updatedAt = JSONResult.valueForKey(ParseClient.JSONResponseKeys.updatedAt) as? String {
+                if let _ = JSONResult.valueForKey(ParseClient.JSONResponseKeys.updatedAt) as? String {
                     // OK  udacityUser data stays the same only refresh the list
                     self.getAllStudentLocations(completionHandler)
                     completionHandler(succes: true, message: "",error: nil)
